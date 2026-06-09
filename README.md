@@ -262,8 +262,9 @@ npm run build
 
 ## Gemini AI risk reports
 
-Current scope: backend-only Freddie Mac MLPD observation risk reports. The frontend
-does not include AI UI yet.
+Current scope: Freddie Mac MLPD observation risk reports with a backend-only Gemini
+integration and a dashboard panel for selecting real observations, generating one
+report, and viewing the latest saved report.
 
 - Uses `google-genai` with free-tier-friendly configured model names:
   - `GEMINI_MODEL_PRIMARY=gemini-3.1-flash-lite`
@@ -290,13 +291,21 @@ VITE_API_BASE_URL="http://127.0.0.1:8010"
 
 ## Dashboard screenshots
 
-Screenshots will be added after the first deployed or locally captured dashboard demo.
+### Dashboard overview
 
-```text
-docs/screenshots/dashboard-overview.png       # placeholder
-docs/screenshots/freddie-mac-analytics.png   # placeholder
-docs/screenshots/hud-analytics.png           # placeholder
-```
+![Dashboard overview](frontend/img/dashboard%20overview.png)
+
+### AI risk report panel
+
+![AI risk report panel](frontend/img/AI%20risk%20report%20panel.png)
+
+### Freddie Mac analytics
+
+![Freddie Mac analytics](frontend/img/Freddie%20Mac%20analytics.png)
+
+### HUD analytics
+
+![HUD analytics](frontend/img/HUD%20analytics.png)
 
 ## Future work
 
