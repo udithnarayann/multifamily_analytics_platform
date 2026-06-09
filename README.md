@@ -1,8 +1,8 @@
 # Real-Time Multifamily Property Analytics Platform
 
-A production-minded full-stack portfolio project for exploring multifamily housing data, public property records, and real loan-performance panel observations.
+A full-stack analytics platform for exploring public multifamily housing records and Freddie Mac Multifamily Loan Performance Database observations.
 
-This project is designed to demonstrate full-stack engineering readiness for housing-finance software engineering roles: clean backend architecture, real-data ingestion, SQL-backed analytics, transparent provenance, and a recruiter-friendly React dashboard.
+The application combines FastAPI ingestion services, Supabase/Postgres analytics, and a React dashboard with transparent data provenance.
 
 ## What the MVP does
 
@@ -293,25 +293,23 @@ VITE_API_BASE_URL="http://127.0.0.1:8010"
 
 ### Dashboard overview
 
-![Dashboard overview](frontend/img/dashboard%20overview.png)
+![Dashboard overview](frontend/img/dashboard-overview.png)
 
 ### AI risk report panel
 
-![AI risk report panel](frontend/img/AI%20risk%20report%20panel.png)
+![AI risk report panel](frontend/img/ai-risk-report-panel.png)
 
 ### Freddie Mac analytics
 
-![Freddie Mac analytics](frontend/img/Freddie%20Mac%20analytics.png)
+![Freddie Mac analytics](frontend/img/freddie-mac-analytics.png)
 
 ### HUD analytics
 
-![HUD analytics](frontend/img/HUD%20analytics.png)
+![HUD analytics](frontend/img/hud-analytics.png)
 
 ## Future work
 
-- Supabase Auth integration and route protection.
-- Gemini-powered AI risk reports with compact, validated structured output.
-- AI report provenance and prompt/version tracking.
-- More detailed filtering and drill-down pages.
+- Supabase Auth integration and role-based access controls.
+- Additional filtering and drill-down views for Freddie Mac observations.
 - Deployment workflow and hosted demo.
 - Optional chart code-splitting if bundle size becomes a priority.
