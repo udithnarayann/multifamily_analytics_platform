@@ -8,9 +8,18 @@ interface MetroBalanceChartProps {
 
 export function MetroBalanceChart({ data }: MetroBalanceChartProps) {
   const chartData = data.map((item) => ({ ...item, balance: item.total_ending_balance ?? 0 }));
+  const hasMeaningfulBalances = chartData.some((item) => item.balance > 0);
 
   if (chartData.length === 0) {
     return <div className="empty-chart">No metro balance data available yet.</div>;
+  }
+
+  if (!hasMeaningfulBalances) {
+    return (
+      <div className="empty-chart">
+        Ending balance is unavailable for the latest-quarter sample.
+      </div>
+    );
   }
 
   return (

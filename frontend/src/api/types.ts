@@ -53,6 +53,49 @@ export interface FreddieMacStatusCode {
   label: string;
 }
 
+export interface FreddieMacObservationSample {
+  id: string;
+  loan_id: string;
+  reporting_quarter: string;
+  mortgage_status_code: number | null;
+  mortgage_status_label: string | null;
+  ending_balance: number | null;
+  original_ltv: number | null;
+  original_dcr: number | null;
+  note_rate: number | null;
+  property_state: string | null;
+  property_metro: string | null;
+  residential_units: number | null;
+}
+
+export interface FreddieMacObservationSampleResponse {
+  source_label: string;
+  observations: FreddieMacObservationSample[];
+}
+
+export interface RiskReportResponse {
+  id: string;
+  freddie_mac_observation_id: string | null;
+  hud_property_id: string | null;
+  risk_rating: 'low' | 'moderate' | 'elevated' | 'high' | 'critical';
+  risk_score: number;
+  summary: string;
+  key_risk_factors: string[];
+  loan_performance_analysis: string;
+  credit_metric_analysis: string;
+  property_analysis: string | null;
+  delinquency_analysis: string;
+  analyst_follow_up_questions: string[];
+  model_name: string;
+  model_version: string | null;
+  prompt_version: string;
+  input_snapshot: Record<string, unknown>;
+  output_snapshot: Record<string, unknown>;
+  data_source_labels: string[];
+  created_by: string | null;
+  created_at: string | null;
+}
+
 export interface FreddieMacLatestQuarterSummary {
   source_label: string;
   reporting_quarter: string | null;

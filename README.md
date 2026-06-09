@@ -11,6 +11,7 @@ This project is designed to demonstrate full-stack engineering readiness for hou
 - Stores ingestion provenance and run metadata.
 - Exposes SQL-backed FastAPI analytics endpoints.
 - Presents a clean React dashboard with charts, metrics, source labels, and ingestion run history.
+- Supports backend-only Gemini AI risk report generation for selected real Freddie Mac MLPD loan-quarter observations.
 
 ## Data provenance and realism
 
@@ -54,6 +55,7 @@ Freddie Mac CSV ┘
 - Supabase hosted PostgreSQL
 - Supabase service role key used only on the backend for local/admin ingestion workflows
 - SQL migration file for analytics views/RPCs
+- Gemini AI risk reports are backend-only for the current MVP phase and use constrained, real-record prompts.
 
 ## Repository structure
 
@@ -144,11 +146,19 @@ SUPABASE_URL="https://your-project.supabase.co"
 SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
 FREDDIE_MAC_MLPD_DATA_DIR="../data/raw/freddie_mac_mlp"
 CORS_ALLOWED_ORIGINS="http://localhost:5173,http://127.0.0.1:5173"
+# Optional: paste your Gemini API key locally only.
+GEMINI_API_KEY=""
+GEMINI_MODEL_PRIMARY=gemini-3.1-flash-lite
+GEMINI_MODEL_FALLBACK=gemini-3.5-flash
 ```
 
 `backend/.env.example` is committed for placeholders only. Do not commit `.env`,
 `.env.local`, Supabase service role keys, Gemini keys, JWTs, or downloaded datasets.
 
+
+`GEMINI_API_KEY` is optional for backend startup. If it is missing, the backend still
+starts; only `POST /risk-reports/freddie-mac/{observation_id}` returns a clear
+configuration error.
 Start the backend:
 
 ```bash
@@ -212,6 +222,9 @@ curl -X POST http://127.0.0.1:8000/ingestion/freddie-mac/mlpd \
 GET  /health
 POST /ingestion/hud/properties
 POST /ingestion/freddie-mac/mlpd
+GET  /freddie-mac/observations/sample
+POST /risk-reports/freddie-mac/{observation_id}
+GET  /risk-reports/freddie-mac/{observation_id}
 GET  /analytics/hud/summary
 GET  /analytics/freddie-mac/summary
 GET  /analytics/freddie-mac/status-codes
@@ -246,6 +259,34 @@ npm run build
 2. Paste contents of `backend/sql/001_analytics_views_and_rpc_functions.sql`.
 3. Run the SQL.
 4. If RPC endpoints return a schema-cache error, wait briefly and retry.
+
+## Gemini AI risk reports
+
+Current scope: backend-only Freddie Mac MLPD observation risk reports. The frontend
+does not include AI UI yet.
+
+- Uses `google-genai` with free-tier-friendly configured model names:
+  - `GEMINI_MODEL_PRIMARY=gemini-3.1-flash-lite`
+  - `GEMINI_MODEL_FALLBACK=gemini-3.5-flash`
+- Does not use Gemini grounding/search tools.
+- Does not send Supabase keys, JWTs, `.env` contents, raw CSV payloads, or unrelated user data.
+- Analyzes only the selected real Freddie Mac MLPD loan-quarter observation.
+- Does not create synthetic data or assume a HUD/Freddie Mac join.
+- Persists reports in `public.ai_risk_reports` after applying `backend/sql/002_ai_risk_reports.sql`.
+
+Manual smoke test after applying SQL and setting `GEMINI_API_KEY`:
+
+```bash
+curl -X POST http://127.0.0.1:8000/risk-reports/freddie-mac/{observation_id}
+curl http://127.0.0.1:8000/risk-reports/freddie-mac/{observation_id}
+```
+
+If Windows blocks the default backend port, run the backend on `8010` and set the
+frontend API base URL accordingly:
+
+```env
+VITE_API_BASE_URL="http://127.0.0.1:8010"
+```
 
 ## Dashboard screenshots
 

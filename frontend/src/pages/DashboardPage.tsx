@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import type { DashboardData } from '../api/types';
 import { fetchDashboardData } from '../api/client';
+import type { DashboardData } from '../api/types';
+import { AiRiskReportPanel } from '../components/AiRiskReportPanel';
 import { DataSourceBadge } from '../components/DataSourceBadge';
 import { ErrorState } from '../components/ErrorState';
 import { IngestionRunsTable } from '../components/IngestionRunsTable';
@@ -56,6 +57,8 @@ export function DashboardPage() {
         <MetricCard label="Avg note rate" value={formatPercent(freddieMac.average_note_rate)} />
         <MetricCard label="Latest reporting quarter" value={latestQuarter.reporting_quarter ?? '—'} helper="Chronological SQL quarter sort" />
       </section>
+
+      <AiRiskReportPanel />
 
       <section className="section-card">
         <div className="section-heading">

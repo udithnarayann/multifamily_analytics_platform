@@ -36,6 +36,18 @@ Fill in `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in `.env.local`. The back
 loads `.env.local` first and `.env` second for local compatibility. Both files are
 gitignored; only `.env.example` should be committed.
 
+For Gemini AI risk reports, optionally set:
+
+```env
+# Optional: paste your Gemini API key locally only.
+GEMINI_API_KEY=""
+GEMINI_MODEL_PRIMARY=gemini-3.1-flash-lite
+GEMINI_MODEL_FALLBACK=gemini-3.5-flash
+```
+
+The backend starts without `GEMINI_API_KEY`; only risk-report generation fails with
+a configuration error until the key is set.
+
 Place the Freddie Mac MLPD CSV files at:
 
 ```text
@@ -61,6 +73,9 @@ uvicorn app.main:app --reload
 GET /health
 POST /ingestion/hud/properties
 POST /ingestion/freddie-mac/mlpd
+GET /freddie-mac/observations/sample
+POST /risk-reports/freddie-mac/{observation_id}
+GET /risk-reports/freddie-mac/{observation_id}
 GET /analytics/hud/summary
 GET /analytics/freddie-mac/summary
 GET /analytics/freddie-mac/status-codes
@@ -89,3 +104,7 @@ Example limited Freddie Mac MLPD ingestion request:
 ## Security note
 
 The Supabase service role key is backend-only. Never expose it to the frontend or commit it to source control.
+
+Gemini risk report prompts are constrained to whitelisted Freddie Mac MLPD observation
+fields only. They do not send Supabase credentials, JWTs, `.env` contents, raw row
+payloads, synthetic data, or any assumed HUD/Freddie Mac joins.

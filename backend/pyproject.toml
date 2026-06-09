@@ -11,6 +11,7 @@ dependencies = [
     "httpx>=0.27.0",
     "supabase>=2.6.0",
     "python-dotenv>=1.0.1",
+    "google-genai>=1.0.0",
 ]
 
 [project.optional-dependencies]
@@ -21,6 +22,10 @@ dev = [
     "ruff>=0.6.0",
     "mypy>=1.11.0",
 ]
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+exclude = ["sql*"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

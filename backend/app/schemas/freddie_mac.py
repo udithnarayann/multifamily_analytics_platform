@@ -58,3 +58,23 @@ class FreddieMacLoanQuarterObservationUpsert(BaseModel):
     @classmethod
     def normalize_state(cls, value: str | None) -> str | None:
         return value.strip().upper()[:2] if value else None
+
+
+class FreddieMacObservationSample(BaseModel):
+    id: str
+    loan_id: str
+    reporting_quarter: str
+    mortgage_status_code: int | None = None
+    mortgage_status_label: str | None = None
+    ending_balance: float | None = None
+    original_ltv: float | None = None
+    original_dcr: float | None = None
+    note_rate: float | None = None
+    property_state: str | None = None
+    property_metro: str | None = None
+    residential_units: int | None = None
+
+
+class FreddieMacObservationSampleResponse(BaseModel):
+    source_label: str = "Freddie Mac Multifamily Loan Performance Database"
+    observations: list[FreddieMacObservationSample]

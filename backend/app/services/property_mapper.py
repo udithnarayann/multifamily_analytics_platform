@@ -57,13 +57,13 @@ def map_hud_feature_to_property(
         hud_property_id = _clean_text(object_id)
 
     longitude = _clean_decimal(
-        _first_present(attributes, ("LONGITUDE", "Longitude", "X", "x"))
-        if _first_present(attributes, ("LONGITUDE", "Longitude", "X", "x")) is not None
+        _first_present(attributes, ("LON", "LONGITUDE", "Longitude", "X", "x"))
+        if _first_present(attributes, ("LON", "LONGITUDE", "Longitude", "X", "x")) is not None
         else geometry.get("x")
     )
     latitude = _clean_decimal(
-        _first_present(attributes, ("LATITUDE", "Latitude", "Y", "y"))
-        if _first_present(attributes, ("LATITUDE", "Latitude", "Y", "y")) is not None
+        _first_present(attributes, ("LAT", "LATITUDE", "Latitude", "Y", "y"))
+        if _first_present(attributes, ("LAT", "LATITUDE", "Latitude", "Y", "y")) is not None
         else geometry.get("y")
     )
 
@@ -73,8 +73,8 @@ def map_hud_feature_to_property(
         address_line1=_clean_text(attributes.get("ADDRESS_LINE1_TEXT")),
         address_line2=_clean_text(attributes.get("ADDRESS_LINE2_TEXT")),
         city=_clean_text(attributes.get("PLACED_BASE_CITY_NAME_TEXT")),
-        state=_clean_text(attributes.get("STATE_CODE")),
-        zip_code=_clean_text(attributes.get("ZIP_CODE")),
+        state=_clean_text(_first_present(attributes, ("STATE_CODE", "STD_ST"))),
+        zip_code=_clean_text(_first_present(attributes, ("ZIP_CODE", "STD_ZIP5"))),
         total_units=_clean_int(attributes.get("TOTAL_UNIT_COUNT")),
         total_assisted_units=_clean_int(attributes.get("TOTAL_ASSISTED_UNIT_COUNT")),
         property_type=_clean_text(attributes.get("PROPERTY_CATEGORY_NAME")),

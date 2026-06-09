@@ -52,3 +52,27 @@ def test_mapper_tolerates_missing_optional_fields() -> None:
     assert mapped.latitude is None
     assert mapped.longitude is None
     assert mapped.raw_hud_payload == feature
+
+
+def test_mapper_prefers_hud_lat_lon_attributes_over_web_mercator_geometry() -> None:
+    feature = {
+        "attributes": {
+            "PROPERTY_ID": "HUD789",
+            "STD_ST": "GA",
+            "STD_ZIP5": "30310",
+            "LAT": 33.718154999999996,
+            "LON": -84.424112,
+        },
+        "geometry": {"x": -9398049.1585, "y": 3991019.6225999966},
+    }
+
+    mapped = map_hud_feature_to_property(
+        feature,
+        source_url="https://example.test/query",
+        source_last_updated=datetime(2026, 1, 1, tzinfo=UTC),
+    )
+
+    assert str(mapped.longitude) == "-84.424112"
+    assert str(mapped.latitude) == "33.718154999999996"
+    assert mapped.state == "GA"
+    assert mapped.zip_code == "30310"

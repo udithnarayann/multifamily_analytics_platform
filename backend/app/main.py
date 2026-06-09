@@ -3,8 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routes.analytics import router as analytics_router
 from app.api.routes.freddie_mac_ingestion import router as freddie_mac_ingestion_router
+from app.api.routes.freddie_mac_observations import router as freddie_mac_observations_router
 from app.api.routes.health import router as health_router
 from app.api.routes.ingestion import router as ingestion_router
+from app.api.routes.risk_reports import router as risk_reports_router
 from app.core.config import get_settings
 from app.core.logging import configure_logging
 
@@ -23,7 +25,9 @@ def create_app() -> FastAPI:
     app.include_router(health_router)
     app.include_router(ingestion_router)
     app.include_router(freddie_mac_ingestion_router)
+    app.include_router(freddie_mac_observations_router)
     app.include_router(analytics_router)
+    app.include_router(risk_reports_router)
     return app
 
 
