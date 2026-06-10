@@ -9,14 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@vitejs/plugin-react": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
-    "vite": "latest",
-    "typescript": "latest",
+    "@vercel/analytics": "^2.0.1",
+    "@vitejs/plugin-react": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "recharts": "latest"
-  },
-  "devDependencies": {}
+    "recharts": "latest",
+    "typescript": "latest",
+    "vite": "latest"
+  }
 }
